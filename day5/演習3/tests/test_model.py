@@ -121,10 +121,11 @@ def test_model_accuracy(train_model):
     # Titanicデータセットでは0.75以上の精度が一般的に良いとされる
     assert accuracy >= 0.75, f"モデルの精度が低すぎます: {accuracy}"
 
+
 def test_compare_with_previous_model(train_model):
     """以前のモデルと比較する"""
     model, X_test, y_test = train_model
-    
+
     with open(PREVIOUS_MODEL_PATH, "rb") as f:
         previous_model = pickle.load(f)
 
@@ -137,9 +138,9 @@ def test_compare_with_previous_model(train_model):
     previous_accuracy = accuracy_score(y_test, previous_y_pred)
 
     # 精度が以前のモデルよりも高いことを確認
-    assert accuracy >= previous_accuracy, (
-        f"新しいモデルの精度が以前のモデルよりも低いです: {accuracy} < {previous_accuracy}"
-    )
+    assert (
+        accuracy >= previous_accuracy
+    ), f"新しいモデルの精度が以前のモデルよりも低いです: {accuracy} < {previous_accuracy}"
 
 
 def test_model_inference_time(train_model):
