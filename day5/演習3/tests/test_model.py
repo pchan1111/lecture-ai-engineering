@@ -138,7 +138,7 @@ def test_compare_with_previous_model(train_model):
     # 精度が以前のモデルよりも高いことを確認
     assert (
         accuracy >= 0.7
-    ), f"新しいモデルの精度が以前のモデルよりも低いです: {accuracy} < {previous_accuracy}"
+    ), f"新しいモデルの精度が以前のモデルよりも低いです"
 
 
 def test_model_inference_time(train_model):
