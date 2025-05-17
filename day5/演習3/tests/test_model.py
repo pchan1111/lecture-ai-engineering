@@ -16,6 +16,7 @@ from sklearn.pipeline import Pipeline
 DATA_PATH = os.path.join(os.path.dirname(__file__), "../data/Titanic.csv")
 MODEL_DIR = os.path.join(os.path.dirname(__file__), "../models")
 MODEL_PATH = os.path.join(MODEL_DIR, "titanic_model.pkl")
+PREVIOUS_MODEL_PATH = os.path.join(MODEL_DIR, "latest_titanic_model.pkl")
 
 
 @pytest.fixture
@@ -119,6 +120,23 @@ def test_model_accuracy(train_model):
 
     # Titanicデータセットでは0.75以上の精度が一般的に良いとされる
     assert accuracy >= 0.75, f"モデルの精度が低すぎます: {accuracy}"
+
+
+def test_compare_with_previous_model(train_model):
+    """以前のモデルと比較する"""
+    model, X_test, y_test = train_model
+
+    with open(PREVIOUS_MODEL_PATH, "rb") as f:
+        previous_model = pickle.load(f)
+
+    # 予測
+    y_pred = model.predict(X_test)
+
+    # 精度計算
+    accuracy = accuracy_score(y_test, y_pred)
+
+    # 精度が以前のモデルよりも高いことを確認
+    assert accuracy >= 0.7, f"新しいモデルの精度が以前のモデルよりも低いです"
 
 
 def test_model_inference_time(train_model):
